@@ -1,0 +1,46 @@
+/* SolutionStepBoxes.css */
+/* styling for step modification buttons */
+.step-modification-button {
+  background-color: #E0E0E0;
+  color: #333;
+  border: none;
+  border-radius: 15px;
+  padding: 8px 16px;
+  font-size: 16px;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.step-modification-button:hover {
+  background-color: #BDBDBD;
+}
+
+/* styling for solution step buttons */
+.solution-step-button {
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #000;
+  border-top: 1px solid #D1D1D1;  /* Only top border line visible */
+  border-bottom: none;  /* Bottom border removed */
+  border-left: none;
+  border-right: none;
+  padding: 10px;
+  display: block;
+  margin: 10px 0;
+  text-align: left;
+  font-size: 18px;
+  cursor: text;  /* Default cursor as text select */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.solution-step-button:hover {
+  background-color: #F0F0F0;  /* Slightly lighter on hover */
+  color: #000;  /* Maintaining the color or changing if required */
+}
+
+/* flex container for buttons */
+.step-modification-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}

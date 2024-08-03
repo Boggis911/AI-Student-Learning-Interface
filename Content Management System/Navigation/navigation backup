@@ -1,0 +1,216 @@
+  
+import React, { useState, useEffect, useContext } from 'react';
+
+import {CurrentUserContext} from '../contextVariables/CurrentUserContext';
+import {CurrentPageContext} from '../contextVariables/CurrentPageContext';
+import {CurrentTopicContext} from '../contextVariables/CurrentTopicContext';
+  
+ 
+import {fetchAllDistinctTopicNames, fetchTopicInformation, createDatabaseItem} from '../services/dataTransferServices';
+  
+  
+  
+  
+const Navigation = ({registeredUserInformation, setTopicInformation}) => {
+  
+
+  
+  
+  const navStyle = {
+    width: '20%', // Adjust as necessary
+    backgroundColor: '#f2f2f2',
+    padding: '15px',
+    display: 'flex',
+    flexDirection: 'column', // Align items in a column
+    alignItems: 'flex-start', // Align items to the left
+  };
+
+
+  const {currentUsername} = useContext(CurrentUserContext);
+  const {setCurrentPage } = useContext(CurrentPageContext);
+  const {currentTopic, setCurrentTopic} = useContext(CurrentTopicContext);
+  
+  
+  //list of the topics that were fetched
+  const [topicList, setTopicList] = useState([]);
+  
+
+  
+
+  
+const handleFetchAllDistinctTopicNames = async () => {
+    setCurrentPage('');
+    setCurrentTopic('');
+
+    try {
+        // Attempt to fetch the topic list
+        const data = await fetchAllDistinctTopicNames(currentUsername);
+
+        // If the fetch is successful, update the topic list
+        setTopicList(data);
+    } catch (error) {
+        // Handle the error by logging, showing an error message, etc.
+        console.error("Failed to fetch topic list:", error.message);
+        
+        // Optionally update the UI to reflect the error
+        setTopicList([]); // You might want to clear the current list or set an appropriate error state
+        // Show an error message to the user or offer a retry button
+    }
+};
+
+
+  //when topic changes, this calls fetchTopicInformation and updates
+// exercises, videos and examples. These are state variables
+useEffect(() => {
+  const fetchData = async () => {
+    if (currentTopic) {
+      try {
+        const data = await fetchTopicInformation(currentUsername, currentTopic);
+        setTopicInformation(data);
+        setCurrentPage("learn");
+      } catch (error) {
+        // Handling the error within the component, possibly setting an error state or logging
+        console.error("Failed to fetch data:", error);
+        // Optionally set an error state here to display an error message or indicator to the user
+        // setError(error);  // Assuming there's a state 'setError' to show error messages in UI
+      }
+    }
+  };
+
+  fetchData();
+}, [currentTopic]);  // React Hook useEffect has missing dependencies: 'currentUsername' and 'setTopicInformation'. Either include them or remove the dependency array.
+
+  
+
+
+  
+
+
+
+
+
+  
+  
+  
+  
+  return (
+  <nav style={navStyle}>
+
+    
+    <h2>Create Topic</h2>
+    <button onClick={() => setCurrentPage("uploadQuestions")}>Upload new questions</button>
+    
+    
+    <h2>General Chat</h2>
+    <button onClick={() => setCurrentPage("generalChat")}>General chat</button>
+    
+    
+    
+    <h2>Your Topics</h2>
+    
+        
+        
+        <ul>
+         <li><button onClick={() => {handleFetchAllDistinctTopicNames()}}>Refresh Topics </button></li> 
+        </ul>
+        
+        
+      <TopicCreator
+      handleFetchAllDistinctTopicNames={handleFetchAllDistinctTopicNames}
+      />
+        
+    <p></p>
+
+
+    {topicList.map((topicValue, index) =>(
+    
+    <button 
+    key={index} 
+    onClick={() => {
+      setCurrentTopic(topicValue);
+      setCurrentPage("learn");
+    }}> 
+    {topicValue} 
+  </button>
+
+    //erasePreviousInfo() function should be used here
+    ))}
+    
+    {/*
+    <DebugComponent
+    data= {{topicList: topicList, currentTopic:currentTopic}}
+    />
+    */}
+    
+
+    
+    </nav>
+    )
+  
+};
+
+
+
+
+
+
+const TopicCreator = ({handleFetchAllDistinctTopicNames}) => {
+  
+  const {currentUsername} = useContext(CurrentUserContext);
+  
+  const [newTopicName, setNewTopicName] = useState('');
+
+
+
+
+  const handleInputChange = (event) => {
+    const input = event.target.value;
+    if (input.length <= 30) {
+      setNewTopicName(input);
+    }
+  };
+
+  
+  
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    // Assuming the username is available or fetched from somewhere in your app
+    const category = 'mock';
+    
+
+    try {
+        //createDatabaseItem returns plain response and not response.data or error
+        const response = await createDatabaseItem(currentUsername, category, newTopicName);
+        // If the promise resolves, log the success response and proceed with any additional success logic
+        console.log("Success:", response);
+        alert(`Success! ${newTopicName} was created`);
+        await handleFetchAllDistinctTopicNames();
+        setNewTopicName('');
+        
+      } catch (error) {
+        // If an error is thrown, it will be caught here
+        console.error("Failed to create a mock item:", error);
+        // Handle the error (e.g., by setting error state, displaying a message to the user, etc.)
+      }
+};
+
+
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        value={newTopicName}
+        onChange={handleInputChange}
+        placeholder="new topic name"
+      />
+    <button type="submit" disabled={!newTopicName.trim()}>Create New Topic</button>
+    </form>
+  );
+};
+  
+
+
+
+
+export default Navigation;

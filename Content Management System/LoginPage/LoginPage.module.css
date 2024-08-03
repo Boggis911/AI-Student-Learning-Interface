@@ -1,0 +1,61 @@
+/* LoginPage.module.css */
+.loginPageDiv {
+  position: relative; /* Make this a positioned element for absolute positioning of children */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  background-color: #fff;
+  color: #333;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  padding-top: 30px; /* Add padding to top to avoid overlap by the banner */
+}
+
+.betaBannerDiv {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #e0f2fe; /* Light blue */
+  color: #333;
+  text-align: center;
+  padding: 8px 0;
+  font-size: 14px;
+  font-weight: normal;
+  width: 100%; /* Ensure it covers the full width */
+}
+
+.pageHeadingH2 {
+  color: #666;
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.usernameInput {
+  padding: 10px 15px;
+  width: 280px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  box-shadow: none;
+}
+
+.enterButton {
+  padding: 10px 15px;
+  width: 300px;
+  background-color: #007aff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.enterButton:hover {
+  background-color: #0056b3;
+  box-shadow: 0 4px 8px rgba(0,56,179,0.3);
+}

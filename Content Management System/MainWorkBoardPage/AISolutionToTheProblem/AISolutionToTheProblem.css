@@ -1,0 +1,12 @@
+/* AISolutionToTheProblem.css */
+.split-screen-layout {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.child-div {
+    flex: 1;
+    margin: 10px;
+}

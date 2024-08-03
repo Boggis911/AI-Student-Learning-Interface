@@ -1,0 +1,50 @@
+/* ExerciseDisplay.css */
+
+h1, h2 {
+  color: #333;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.exercise-button {
+  padding: 8px 16px;  /* Slightly smaller padding to reduce bulkiness */
+  font-size: 14px;  /* Smaller font size for a more refined look */
+  font-weight: 400;  /* Lighter font weight to match Apple’s typical typography */
+  background-color: #007AFF;  /* Retain the blue but might consider a softer shade */
+  color: white;
+  border: none;
+  border-radius: 10px;  /* Increase border-radius for a softer, more modern appearance */
+  cursor: pointer;
+  margin: 5px 5px;  /* Reduced margin for tighter grouping */
+  transition: background-color 0.3s, transform 0.2s;
+  display: inline-block;  /* Ensure buttons are aligned inline */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  /* Softer shadow for a more subtle depth */
+}
+
+.exercise-button:hover, .exercise-button:focus {
+  background-color: #0056b3;  /* Darker blue on hover for interaction feedback */
+  transform: translateY(-1px);  /* Less pronounced movement on hover */
+  outline: none;
+}
+
+.exercise-button:focus {
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.5);  /* Focus ring for accessibility */
+}
+
+.exercise-details {
+  font-size: 16px;
+  color: #444;
+  background-color: #ffffff;
+  padding: 15px;  /* Uniform padding for a cleaner layout */
+  border-radius: 6px;  /* Reduced border radius for consistency */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);  /* Lighter shadow for less visual weight */
+}
+
+.exercise-question {
+  font-size: 18px;  /* Consistent font size across the detail elements */
+  background-color: #f0f0f0;
+  padding: 10px;  /* Slightly reduced padding */
+  margin-top: 10px;
+  border-radius: 6px;  /* Consistent border-radius */
+}

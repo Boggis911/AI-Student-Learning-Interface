@@ -1,0 +1,42 @@
+/* UserSolutionToTheProblem.css */
+
+.split-screen-layout {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.child-div {
+  flex: 1;
+  margin: 10px;
+}
+
+.header-with-help {
+    display: flex;
+    align-items: center;
+    position: relative; /* Set position relative to make child absolute positioning within it */
+    justify-content: flex-start; /* Align items to the left */
+}
+
+.header-with-help h2 {
+    margin-right: 10px; /* Adjust this value based on your spacing preference */
+}
+
+
+
+.answer-checker-textarea {
+  width: 10vw;
+  height: 2em;
+  padding: 5px;
+  border-color: #ccc;
+  border-radius: 4px;
+}
+
+.solution-checker-textarea {
+  width: 20vw;
+  height: 20px;
+  padding: 10px;
+  border-color: #ccc;
+  border-radius: 4px;
+}

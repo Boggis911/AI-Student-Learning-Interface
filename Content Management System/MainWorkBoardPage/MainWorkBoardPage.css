@@ -1,0 +1,21 @@
+/* MainWorkBoardPage.css */
+.main-section {
+  padding: 15px;
+  background-color: #fff;
+}
+
+.buttons-container {
+    display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.correct-answer {
+  margin-left: 0; /* Aligns the answer text to the left */
+  padding: 10px; /* Adds some padding around the text for better visibility */
+  background-color: #f3f3f3; /* Gives a subtle background color to distinguish this section */
+}
+
+.spacer {
+  height: 20px; /* Adjust the height as needed */
+}
