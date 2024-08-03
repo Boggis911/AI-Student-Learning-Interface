@@ -1,0 +1,87 @@
+/* AIChat.module.css */
+.chatInterfaceContainer {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  margin: auto;
+  background-color: #fff;
+  padding: 20px;
+  border: none;
+  box-shadow: none;
+}
+
+.connectionIssueNotice {
+  color: #ff3b30;
+}
+
+.messageHistoryScrollArea {
+  overflow-y: auto;
+  max-height: 500px;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: none;
+}
+
+.messageEntry {
+  background-color: #fff;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 16px;
+  color: #333;
+  font-size: 16px; /* Ensure font-size is explicitly set */
+}
+
+.textInputArea {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.textInput {
+  flex: 1;
+  font-weight: 500;
+  color: #333;
+}
+
+.textInput:focus {
+  border-color: #007aff;
+}
+
+.controlButtonGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sendTextButton,
+.clearChatButton {
+  padding: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.sendTextButton {
+  background-color: #007aff;
+  color: white;
+}
+
+.sendTextButton:hover {
+  background-color: #005ecb;
+}
+
+.sendTextButton:disabled {
+  background-color: #7f8c8d;
+}
+
+.clearChatButton {
+  background-color: #007aff;
+  color: white;
+}
+
+.clearChatButton:hover {
+  background-color: #005ecb;
+}

@@ -1,0 +1,228 @@
+import React from 'react';
+import Latex from 'react-latex-next'; // Ensure this import is correct based on your package
+import 'katex/dist/katex.min.css'; // Required to style the LaTeX
+
+const ChatLog = React.memo(({ chatLog }) => {
+  console.log("chatLog component invoke");
+  return (
+    chatLog.map((entry, index) => (
+      <p key={index}><strong>{entry.role}:</strong> <Latex>{entry.content || ""}</Latex></p>
+    ))
+  );
+});
+
+const AIResponse = React.memo(({ AIResponseText }) => {
+  return (
+    AIResponseText && <p><strong>assistant:</strong> <Latex>{AIResponseText}</Latex></p>
+  );
+});
+
+
+
+const UserChatInput = React.memo(({
+  userCurrentChatInputString,
+  setUserCurrentChatInputString,
+  handleSendMessage,
+  textareaPlaceholder,
+  textareaStyle = {} // provide an empty object as default value
+}) => {
+  
+  
+  
+  
+  const defaultTextareaStyle = {
+  width: '100%', // make the textarea full-width
+  height: '150px', // increase the height to make it bigger than the default
+  padding: '10px', // add some padding inside the textarea
+  boxSizing: 'border-box', // include padding in the total width and height
+};
+  const combinedTextareaStyle = { ...defaultTextareaStyle, ...textareaStyle };
+
+  return (
+    <textarea
+      value={userCurrentChatInputString}
+      maxLength="1000"
+      onChange={e => setUserCurrentChatInputString(e.target.value)}
+      onKeyDown={e => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          if (userCurrentChatInputString.trim()) {
+            handleSendMessage();
+          }
+        }
+      }}
+      placeholder={textareaPlaceholder}
+      style={combinedTextareaStyle}
+    />
+  );
+});
+
+
+export { ChatLog, AIResponse, UserChatInput };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useState, useEffect, useContext } from 'react';
+import {ChatLog, AIResponse, UserChatInput } from './ChatUI';
+import { useAIWebsocket } from '../services/AICommunicationServices';
+import {CurrentUserContext} from '../contextVariables/CurrentUserContext';
+import {CurrentTopicContext} from '../contextVariables/CurrentTopicContext';
+
+
+
+const AIChat = ({ systemInstructionRouting = '', exerciseInformation={}, selectedSolutionStepInteger=0, mathquillLatexValuesArray=[],  textareaStyle = {}, textareaPlaceholder = "Enter your message" }) => {
+  const { sendMessage, lastMessage, readyState } = useAIWebsocket();
+  const [AIResponseText, setAIResponseText] = useState("");
+  const [chatLog, setChatLog] = useState([]);
+  const [userCurrentChatInputString, setUserCurrentChatInputString] = useState("");
+  const { currentUsername } = useContext(CurrentUserContext);
+  const { currentTopic } = useContext(CurrentTopicContext);
+
+useEffect(() => {
+  if (lastMessage && lastMessage !== null) {
+    const data = JSON.parse(lastMessage.data); // `data` field contains the actual JSON payload
+    const newChunk = data.message; // Assuming 'message' is the key you've used in Lambda to send chunks
+
+    if (data.statusCode && data.statusCode >= 400) {
+      console.error("data.statusCode:", data.statusCode);
+
+      if (data.statusCode === 429) {
+        alert("You have reached your message limit of 30 messages in 3 hours. Please try again later.");
+      } else {
+        alert("An unexpected error occurred. Please try again.");
+      }
+    } else if (newChunk && !newChunk.includes("END_OF_STREAM")) {
+      setAIResponseText(prevResponse => prevResponse + newChunk);
+    } else if (newChunk.includes("END_OF_STREAM")) {
+      setChatLog(prevChatLog => [...prevChatLog, { role: "assistant", content: AIResponseText }]);
+      setAIResponseText('');
+    }
+  }
+}, [lastMessage]);
+
+
+  const handleSendMessage = async () => {
+    
+    let params = {};
+    
+    //handle 4 different routes:)) lol
+    if (systemInstructionRouting === "checkUserSolutionWithAI"){
+      
+      const lastChatLogs = chatLog.slice(-5); //one slice is around 40w
+      
+      const mathquillLatexString = mathquillLatexValuesArray.join("; ");
+      
+      const messageContent = `USER PROBLEM SOLUTION: "${mathquillLatexString}" USER ADDITIONAL MESSAGE: "${userCurrentChatInputString}"`;
+
+      
+      const frontendMessages = [...lastChatLogs, {role: "user", content: messageContent}];
+        
+        
+      params = {
+        action: 'chatWithBot',
+        frontendMessages,
+        currentUsername,        
+        systemInstructionRouting,
+        exerciseInformation,
+        mathquillLatexValuesArray
+      };
+      
+    } 
+    
+    
+    else if (systemInstructionRouting === "checkAISolution"){
+      
+      const lastChatLogs = chatLog.slice(-5); //one slice is around 40w
+      const frontendMessages = [...lastChatLogs, {role: "user", content: userCurrentChatInputString}];
+    
+      params = {
+        action: 'chatWithBot',
+        frontendMessages,
+        currentUsername,        
+        systemInstructionRouting,
+        selectedSolutionStepInteger,
+        exerciseInformation
+      };
+      
+    } 
+    
+    
+    else if (systemInstructionRouting === "haveAGeneralChatWithAI"){
+     
+      const lastChatLogs = chatLog.slice(-5); //one slice is around 40w
+      const frontendMessages = [...lastChatLogs, {role: "user", content: userCurrentChatInputString}];
+        
+      params = {
+        action: 'chatWithBot',
+        frontendMessages,
+        currentUsername,        
+        systemInstructionRouting
+      };
+      
+    }
+    
+
+    
+    else {
+//       console.log("incorrect systemInstructionRouting was provided in AIChat component")
+    }
+    
+
+  
+    // sendMessage is a default sender function which is used only with a websocket
+    await sendMessage(JSON.stringify(params));
+    console.log("message was sent to lambda: ", params);
+  
+    // Update the state after sendMessage is done
+    setChatLog(prevChatLog => [...prevChatLog, { role: 'user', content: userCurrentChatInputString }]);
+    setUserCurrentChatInputString('');
+    
+  }; //handle send message function end
+
+
+
+  return (
+    <section>
+      {readyState === 3 && <h3>Connection is closed. Wait for a few seconds</h3>}
+      <ChatLog chatLog={chatLog} />
+      <AIResponse AIResponseText={AIResponseText} />
+      {readyState === 1 && (
+        <div>
+          <UserChatInput
+            userCurrentChatInputString={userCurrentChatInputString}
+            setUserCurrentChatInputString={setUserCurrentChatInputString}
+            handleSendMessage={handleSendMessage}
+            textareaPlaceholder={textareaPlaceholder}
+            textareaStyle={textareaStyle}
+          />
+          <button onClick={handleSendMessage} disabled={!userCurrentChatInputString.trim() || AIResponseText}>Send Message</button>
+          <button onClick={() => { setChatLog([]); setAIResponseText(""); }}>Clean the chat</button>
+        </div>
+      )}
+    </section>
+  );
+};
+
+
+
+
+
+export default AIChat;

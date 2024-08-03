@@ -1,0 +1,26 @@
+/* Main container styling */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 92vh; 
+  padding: 10px; /* Padding around the container */
+  margin: 0; /* Remove default margin */
+  box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+  background-color: #fff;
+    
+    
+}
+
+/* This ensures that all content inside chat-container pushes to the bottom */
+.chat-container {
+  justify-content: flex-end; /* Aligns children to the end (bottom) */
+  flex-grow: 1;
+}
+
+/* Styling for the warning message */
+.warning-message {
+  text-align: center; /* Center-align the text */
+  color: #888; /* Grey text color */
+  font-size: 0.9rem; /* Smaller font size */
+  margin-top: 10px; /* Space above the message */
+}

@@ -1,0 +1,8 @@
+/* ChefMessageAccumulator.css */
+
+.assistantMessage {
+  background-color: #fff; /* Uniform white background for assistant messages */
+  padding: 10px;
+  margin-bottom: 10px;
+  color: #333;
+}
