@@ -1,0 +1,85 @@
+/* MathQuill.css */
+
+/* Flex container for MathQuill input and button, with relative positioning */
+.mathquill-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+/* Style adjustments for MathQuill input with hover effect */
+.mathquill-input {
+  flex-grow: 1;
+  border: 2px solid transparent; /* Ensures layout doesn't change on hover */
+  transition: border 0.3s; /* Smooth transition for the border */
+}
+
+/* Hover effect on the input field */
+.mathquill-wrapper:hover .mathquill-input {
+  border: 2px solid #007AFF; /* Changes border color on hover */
+}
+
+/* Minimalist circular 'Remove' button with conditional visibility */
+.remove-button {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 20px;
+  text-align: center;
+  border: none;
+  background-color: #ccc;
+  color: white;
+  font-weight: bold;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  position: absolute;
+  right: 0; /* Updated to better align with the right side */
+  display: none; /* Button is hidden by default */
+  margin-right: 20px
+}
+
+/* Display the 'Remove' button when the parent container is hovered */
+.mathquill-wrapper:hover .remove-button {
+  display: block; /* Makes the button visible on hover */
+}
+
+/* Enhanced hover effect for the 'Remove' button */
+.remove-button:hover {
+  background-color: #b0b0b0;
+}
+
+/* General styles for buttons for a consistent look */
+.button {
+  font-size: 16px;
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  background-color: #007AFF; /* Apple-like blue */
+  color: white;
+  border-radius: 5px; /* Slightly rounded corners for a modern look */
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s; /* Smooth transitions for hover effects */
+}
+
+.button:hover {
+  background-color: #0056b3; /* Darker shade of blue on hover */
+  transform: scale(1.05); /* Slight increase in size on hover */
+}
+
+/* Specific style for the 'Add Input Box' button */
+.add-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px; /* Fixed width for the button */
+  height: 50px; /* Fixed height to make it square */
+  font-size: 24px; /* Larger font size for the '+' sign */
+  border-radius: 50%; /* Circular shape */
+}
+
+.add-button:hover {
+  background-color: #0064d2; /* Slightly different hover color for a distinct effect */
+}
