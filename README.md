@@ -5,7 +5,7 @@ My biggest Full-Stack project so far, where I used AWS and integrated latest Ope
 To showcase the whole platform effectivelly, I split the whole project into 5 major parts: CMS, AI driven CMS, AI chat, Latex Whiteboar and customised LLM workflow also known as Agentic workflow by utilising AWS Step Functions.
 Each part has its own description.
 
-## Introduction
+**Project Breakdown:**
 The main benefit of this project was to provide students with an AI learning interface, which was hoped to be more convenient and user-friendly than using ChatGPT. The platform was designed for STEM subjects, where students would have to communicate with AI while using complex mathematical notations, such as functions, integrals, visuals, mathematical symbols, etc. In addition to a user-friendly interface designed for STEM subjects, in 2023-2024 GPT models had significant hallucination problems, where the model would give the wrong answer or solution to the problem, thus misleading the students and making their learning experience counterproductive. In order to solve this problem, a custom agentic workflow was developed, which leveraged AWS Step Function orchestration capabilities.
 
 
