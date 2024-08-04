@@ -1,4 +1,3 @@
-## learning content management system
 
 # Learning Content Management System
 
