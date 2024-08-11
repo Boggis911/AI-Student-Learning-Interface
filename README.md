@@ -1,6 +1,7 @@
 # AI-Student-Learning-Interface
 
 My biggest Full-Stack project so far, where I used AWS and integrated latest OpenAI models: GPT-3.5-turbo, which was later replaced by GPT-4 and GPT-4o.
+Use the following public username to access the live version: guest982
 
 ## Architecture
 - **Microservices Architecture:** Ensures scalability and maintainability by dividing the application into smaller, independent services.
