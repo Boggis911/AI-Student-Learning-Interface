@@ -27,39 +27,7 @@ export const AIChat = ({
   const { style: textAreaStyle, placeholder: textAreaPlaceholder } = designTextArea(systemInstructionRoutingStr);
 
 
-  const handleSendMessage = () => {
-    if (userCurrentChatInputStr.trim()) {
-      const params = constructParams({
-        systemInstructionRoutingStr,
-        chatLogArrObj, 
-        userCurrentChatInputStr,
-        currentUsernameStr,
-        currentExerciseDetailsObj,
-        mathquillLatexValuesArrStr,
-        filePreviewsArrObj,
-        currentTopicStr
-      });
-      
-      sendMessage(JSON.stringify(params));
-      setUserCurrentChatInputStr('');
-      setChatLogArrObj(prev => [...prev, { role: "user", content: userCurrentChatInputStr }]);
-    }
-  };
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault(); // Prevent default Enter behavior
-      handleSendMessage();
-    }
-  };
-
-  const handleChange = (e) => {
-    setUserCurrentChatInputStr(e.target.value);
-  };
-
-  const updateChatLogFn = useCallback((lastAIMessageStr) => {
-    setChatLogArrObj(prev => [...prev, { role: "assistant", content: lastAIMessageStr }]);
-  }, []);
 
 return (
     <section className={styles.chatInterfaceContainer}>
